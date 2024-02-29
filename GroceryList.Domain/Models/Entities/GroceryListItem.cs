@@ -1,8 +1,8 @@
 ﻿namespace GroceryList.Domain.Models
 {
-    public class GroceryItem : EntityBase
+    public class GroceryListItem : EntityBase
     {
-        public GroceryItem(string name, int quantity, List<GroceryItemCategory> category, bool isChecked)
+        public GroceryListItem(string name, int quantity, List<GroceryItemCategory> category, bool isChecked)
         {
             Name = name;
             Quantity = quantity;

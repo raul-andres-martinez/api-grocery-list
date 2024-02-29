@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using GroceryList.Domain.Interfaces.Configs;
+using GroceryList.Domain.Models.Configs;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -11,6 +13,9 @@ namespace GroceryList.Service.Extensions
             //Repositories
 
             //Services
+
+            // Singleton ConnString provider
+            services.AddSingleton<IConnectionStringProvider, ConfigurationConnectionStringProvider>();
 
             // Serilog config
             var logFilePath = configuration["LogFilePath"];
@@ -30,7 +35,7 @@ namespace GroceryList.Service.Extensions
         {
             return new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .WriteTo.Console(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug) // Ensure lower level
+                .WriteTo.Console(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug)
                 .WriteTo.File(
                     logFilePath,
                     rollingInterval: RollingInterval.Day,
