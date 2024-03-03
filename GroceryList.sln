@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroceryList.Api", "GroceryL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroceryList.Data", "GroceryList.Data\GroceryList.Data.csproj", "{65D7CA6F-925F-45D7-B55F-F73D6098A2C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroceryList.Infra", "GroceryList.Infra\GroceryList.Infra.csproj", "{334D8E3F-0A53-4534-86C7-DD2EFBBBC230}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{65D7CA6F-925F-45D7-B55F-F73D6098A2C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65D7CA6F-925F-45D7-B55F-F73D6098A2C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65D7CA6F-925F-45D7-B55F-F73D6098A2C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{334D8E3F-0A53-4534-86C7-DD2EFBBBC230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{334D8E3F-0A53-4534-86C7-DD2EFBBBC230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{334D8E3F-0A53-4534-86C7-DD2EFBBBC230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{334D8E3F-0A53-4534-86C7-DD2EFBBBC230}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,6 @@
-﻿using GroceryList.Domain.Interfaces.Configs;
+﻿using GroceryList.Data.Repositories;
+using GroceryList.Domain.Interfaces.Configs;
+using GroceryList.Domain.Interfaces.Interfaces;
 using GroceryList.Domain.Models.Configs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +13,7 @@ namespace GroceryList.Service.Extensions
         public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
         {
             //Repositories
+            services.AddSingleton<IUserRepository, UserRepository>();
 
             //Services
 
@@ -26,7 +29,6 @@ namespace GroceryList.Service.Extensions
             var loggerConfiguration = ConfigureLogger(logFilePath);
             Log.Logger = loggerConfiguration.CreateLogger();
             services.AddSingleton(Log.Logger);
-            Log.Logger.Warning("Test startup");
 
             return services;
         }

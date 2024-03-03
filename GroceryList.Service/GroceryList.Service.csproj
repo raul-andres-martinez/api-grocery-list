@@ -15,7 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GroceryList.Data\GroceryList.Data.csproj" />
     <ProjectReference Include="..\GroceryList.Domain\GroceryList.Domain.csproj" />
+    <ProjectReference Include="..\GroceryList.Infra\GroceryList.Infra.csproj" />
   </ItemGroup>
 
 </Project>
