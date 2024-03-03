@@ -1,7 +1,9 @@
 ﻿using GroceryList.Data.Repositories;
 using GroceryList.Domain.Interfaces.Configs;
 using GroceryList.Domain.Interfaces.Interfaces;
+using GroceryList.Domain.Interfaces.Services;
 using GroceryList.Domain.Models.Configs;
+using GroceryList.Service.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -16,6 +18,7 @@ namespace GroceryList.Service.Extensions
             services.AddSingleton<IUserRepository, UserRepository>();
 
             //Services
+            services.AddSingleton<IUserService, UserService>();
 
             // Singleton ConnString provider
             services.AddSingleton<IConnectionStringProvider, ConfigurationConnectionStringProvider>();

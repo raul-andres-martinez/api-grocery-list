@@ -18,13 +18,15 @@ namespace GroceryList.Data.Repositories
             _logger = logger;
         }
 
-        public async Task<GenericResponse> AddUserAsync(User user)
+        public async Task<GenericResponse<Guid>> AddUserAsync(User user)
         {
             try
             {
                 _logger.LogInformation("Inserting User {UserId} | Operation: {MethodName}", user.Id, nameof(AddUserAsync));
                 using (var conn = new MySqlConnection(_connProvider.ConnectionString))
                 {
+                    await conn.OpenAsync();
+
                     const string sql = @"
                         INSERT INTO Users (Id, Name, Email, PasswordHash, PasswordSalt, CreatedAt, UpdatedAt)
                         VALUES (@Id, @Name, @Email, @PasswordHash, @PasswordSalt, NOW(), NOW());
@@ -43,17 +45,17 @@ namespace GroceryList.Data.Repositories
                     if (rowsAffected == 1)
                     {
                         _logger.LogInformation("User created {UserId} | Operation: {MethodName}", user.Id, nameof(AddUserAsync));
-                        return new GenericResponse("User created.", new { user.Id });
+                        return new GenericResponse<Guid>("User created.", user.Id);
                     }
 
                     _logger.LogWarning("Error adding User: {User} | Unique constraint violation Email or Id | Operation: {MethodName}", new { user.Id, user.Email }, nameof(AddUserAsync));
-                    return new GenericResponse("Error adding user. No rows changed.");
+                    return new GenericResponse<Guid>("Error adding user. No rows changed.");
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding User: {UserId} | Message {Message} | Operation: {MethodName}", user.Id, ex.Message, nameof(AddUserAsync));
-                return new GenericResponse($"Error adding user: {ex.Message}");
+                return new GenericResponse<Guid>($"Error adding user: {ex.Message}");
             }
         }
     }

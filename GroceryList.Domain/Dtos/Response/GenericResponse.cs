@@ -1,8 +1,8 @@
 ﻿namespace GroceryList.Domain.Dtos.Response
 {
-    public class GenericResponse
+    public class GenericResponse<T>
     {
-        public GenericResponse(string message, object data)
+        public GenericResponse(string message, T data)
         {
             Success = true;
             Message = message;
@@ -13,11 +13,10 @@
         {
             Success = false;
             Message = message;
-            Data = null;
         }
 
         public bool Success { get; set; }
         public string Message { get; set; }
-        public object? Data { get; set; }
+        public T? Data { get; set; }
     }
 }

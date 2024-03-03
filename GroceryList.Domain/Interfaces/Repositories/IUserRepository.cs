@@ -5,6 +5,6 @@ namespace GroceryList.Domain.Interfaces.Interfaces
 {
     public interface IUserRepository
     {
-        Task<GenericResponse> AddUserAsync(User user);
+        Task<GenericResponse<Guid>> AddUserAsync(User user);
     }
 }

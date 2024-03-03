@@ -14,9 +14,9 @@ namespace GroceryList.Domain.Dtos.Requests
         [Required]
         public string Password { get; set; }
 
-        public User ToEntity(byte[] passwordHash, byte[] passwordSalt) 
+        public User ToEntity() 
         {
-            return new User(Name, Email, passwordHash, passwordSalt);
+            return new User(Name, Email, Password);
         }
     }
 }
