@@ -1,9 +1,11 @@
 ﻿using GroceryList.Data.Repositories;
 using GroceryList.Domain.Interfaces.Configs;
+using GroceryList.Domain.Interfaces.Infra;
 using GroceryList.Domain.Interfaces.Interfaces;
 using GroceryList.Domain.Interfaces.Repositories;
 using GroceryList.Domain.Interfaces.Services;
 using GroceryList.Domain.Models.Configs;
+using GroceryList.Infra.Auth;
 using GroceryList.Service.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,9 @@ namespace GroceryList.Service.Extensions
             //Repositories
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IGroceryListRepository, GroceryListRepository>();
+
+            //Infra
+            services.AddSingleton<IAuthService, AuthService>();
 
             //Services
             services.AddSingleton<IUserService, UserService>();
