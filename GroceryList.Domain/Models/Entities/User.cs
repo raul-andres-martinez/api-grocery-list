@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using GroceryList.Domain.Models.Relationships;
 
 namespace GroceryList.Domain.Models
 {
@@ -12,6 +13,7 @@ namespace GroceryList.Domain.Models
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
             PasswordHash = passwordHash;
             PasswordSalt = passwordSalt;
+            GroceryLists = new List<UserGroceryList>();
         }
 
         public string Name { get; private set; }

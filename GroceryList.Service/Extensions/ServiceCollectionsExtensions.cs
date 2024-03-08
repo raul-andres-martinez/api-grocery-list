@@ -1,6 +1,7 @@
 ﻿using GroceryList.Data.Repositories;
 using GroceryList.Domain.Interfaces.Configs;
 using GroceryList.Domain.Interfaces.Interfaces;
+using GroceryList.Domain.Interfaces.Repositories;
 using GroceryList.Domain.Interfaces.Services;
 using GroceryList.Domain.Models.Configs;
 using GroceryList.Service.Services;
@@ -16,9 +17,11 @@ namespace GroceryList.Service.Extensions
         {
             //Repositories
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IGroceryListRepository, GroceryListRepository>();
 
             //Services
             services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IGroceryListService, GroceryListService>();
 
             // Singleton ConnString provider
             services.AddSingleton<IConnectionStringProvider, ConfigurationConnectionStringProvider>();

@@ -6,35 +6,35 @@ using Microsoft.AspNetCore.Mvc;
 namespace GroceryList.Api.Controllers
 {
     [ApiController]
-    [Route("/api/v1/users")]
-    public class UserController : ControllerBase
+    [Route("/api/v1/grocery-list")]
+    public class GroceryListController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IGroceryListService _groceryListService;
 
-        public UserController(IUserService userService)
+        public GroceryListController(IGroceryListService groceryListService)
         {
-            _userService = userService;
+            _groceryListService = groceryListService;
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(GenericResponse<Guid>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddUser(UserRequest user)
+        public async Task<IActionResult> AddGroceryList(GroceryListRequest request)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid) 
             {
                 return BadRequest(ModelState);
             }
 
-            var response = await _userService.AddUserAsync(user);
+            var response = await _groceryListService.AddGroceryListAsync(request);
 
-            if (!response.Success) 
+            if (!response.Success)
             {
                 return BadRequest(response.Message);
             }
 
             return Ok(response);
-        }        
+        }
     }
 }

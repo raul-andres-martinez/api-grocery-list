@@ -1,6 +1,6 @@
-﻿namespace GroceryList.Domain.Models
+﻿namespace GroceryList.Domain.Models.Relationships
 {
-    public class UserGroceryList
+    public class UserGroceryList : EntityBase
     {
         public Guid UserId { get; set; }
         public Guid GroceryListId { get; set; }
