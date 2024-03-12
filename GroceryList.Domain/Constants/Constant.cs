@@ -13,6 +13,16 @@
                         INSERT INTO UserGroceryLists (Id, UserId, GroceryListId, CreatedAt, UpdatedAt)
                         VALUES (@Id, @UserId, @GroceryListId, NOW(), NOW());
                         ";
+
+
+            public const string InsertUser = @"
+                        INSERT INTO Users (Id, Name, Email, PasswordHash, PasswordSalt, CreatedAt, UpdatedAt)
+                        VALUES (@Id, @Name, @Email, @PasswordHash, @PasswordSalt, NOW(), NOW());
+                        ";
+
+            public const string SelectLogin = @"
+                        SELECT Id, PasswordSalt, PasswordHash FROM Users WHERE Email = @Email
+                        ";
         }
     }
 }

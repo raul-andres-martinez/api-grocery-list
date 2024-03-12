@@ -4,7 +4,9 @@ namespace GroceryList.Domain.Interfaces.Infra
 {
     public interface IAuthService
     {
-        string GenerateJwtToken();
-        Task<JwtValidationResult> ValidateJwtToken(string jwtToken);
+        string GenerateJwtToken(Guid userId);
+        Task<JwtValidationResult> ValidateJwtTokenAsync(string jwtToken);
+        string EncryptUserId(Guid userId);
+        Guid DecryptUserId(string encryptedUserId);
     }
 }

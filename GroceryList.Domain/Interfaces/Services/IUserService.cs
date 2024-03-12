@@ -6,5 +6,6 @@ namespace GroceryList.Domain.Interfaces.Services
     public interface IUserService
     {
         Task<GenericResponse<Guid>> AddUserAsync(UserRequest request);
+        Task<GenericResponse<SignInResponse>> SignInAsync(SignInRequest request);
     }
 }

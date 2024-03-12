@@ -1,5 +1,6 @@
 using Microsoft.OpenApi.Models;
 using GroceryList.Service.Extensions;
+using GroceryList.Infra.Middleware;
 namespace GroceryList.Api
 {
     public class Program
@@ -58,6 +59,7 @@ namespace GroceryList.Api
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.UseAuthentication();
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseRouting();
             app.MapControllers();

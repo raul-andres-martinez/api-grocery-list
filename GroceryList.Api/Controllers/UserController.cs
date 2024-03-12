@@ -35,6 +35,27 @@ namespace GroceryList.Api.Controllers
             }
 
             return Ok(response);
-        }        
+        }
+
+        [HttpPost("/sign-in")]
+        [ProducesResponseType(typeof(GenericResponse<SignInResponse>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SignIn(SignInRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await _userService.SignInAsync(request);
+
+            if (!response.Success)
+            {
+                return BadRequest(response.Message);
+            }
+
+            return Ok(response);
+        }
     }
 }

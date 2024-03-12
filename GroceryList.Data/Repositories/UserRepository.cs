@@ -1,9 +1,12 @@
-﻿using GroceryList.Domain.Dtos.Response;
+﻿using Dapper;
+using GroceryList.Domain.Dtos.Requests;
+using GroceryList.Domain.Dtos.Response;
 using GroceryList.Domain.Interfaces.Configs;
 using GroceryList.Domain.Interfaces.Interfaces;
 using GroceryList.Domain.Models;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
+using static GroceryList.Domain.Constants.Constant;
 
 namespace GroceryList.Data.Repositories
 {
@@ -27,20 +30,16 @@ namespace GroceryList.Data.Repositories
                 {
                     await conn.OpenAsync();
 
-                    const string sql = @"
-                        INSERT INTO Users (Id, Name, Email, PasswordHash, PasswordSalt, CreatedAt, UpdatedAt)
-                        VALUES (@Id, @Name, @Email, @PasswordHash, @PasswordSalt, NOW(), NOW());
-                    ";
+                    const string sql = Queries.InsertUser;
 
-                    var command = new MySqlCommand(sql, conn);
+                    var sqlParams = new DynamicParameters();
+                    sqlParams.Add("@Id", user.Id);
+                    sqlParams.Add("@Name", user.Name);
+                    sqlParams.Add("@Email", user.Email);
+                    sqlParams.Add("@PasswordHash", user.PasswordHash);
+                    sqlParams.Add("@PasswordSalt", user.PasswordSalt);
 
-                    command.Parameters.AddWithValue("@Id", user.Id);
-                    command.Parameters.AddWithValue("@Name", user.Name);
-                    command.Parameters.AddWithValue("@Email", user.Email);
-                    command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
-                    command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
-
-                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    int rowsAffected = await conn.ExecuteAsync(sql, sqlParams);
 
                     if (rowsAffected == 1)
                     {
@@ -56,6 +55,36 @@ namespace GroceryList.Data.Repositories
             {
                 _logger.LogError(ex, "Error adding User: {UserId} | Message {Message} | Operation: {MethodName}", user.Id, ex.Message, nameof(AddUserAsync));
                 return new GenericResponse<Guid>($"Error adding user: {ex.Message}");
+            }
+        }
+
+        public async Task<GenericResponse<User>> SignInAsync(string email)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(_connProvider.ConnectionString))
+                {
+                    await conn.OpenAsync();
+
+                    const string sql = Queries.SelectLogin;
+
+                    var sqlParams = new DynamicParameters();
+                    sqlParams.Add("@Email", email);
+
+                    var user = await conn.QuerySingleOrDefaultAsync<User>(sql, sqlParams);
+
+                    if (user is null)
+                    {
+                        return new GenericResponse<User>($"Email or password does not match.");
+                    }
+
+                    return new GenericResponse<User>($"User found.", user);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error SigningIn | Message {Message} | Operation: {MethodName}", ex.Message, nameof(SignInAsync));
+                return new GenericResponse<User>($"Error SignIn: {ex.Message}");
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace GroceryList.Domain.Models
 {
-    public class EntityBase
+    public abstract class EntityBase
     {
         public EntityBase()
         {
