@@ -6,6 +6,8 @@ namespace GroceryList.Domain.Models
 {
     public class User : EntityBase
     {
+        public User() { }
+
         public User(string name, string email, string password)
         {
             Name = name;

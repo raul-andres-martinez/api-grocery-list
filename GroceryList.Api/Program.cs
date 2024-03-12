@@ -1,6 +1,9 @@
 using Microsoft.OpenApi.Models;
 using GroceryList.Service.Extensions;
 using GroceryList.Infra.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 namespace GroceryList.Api
 {
     public class Program
@@ -46,8 +49,25 @@ namespace GroceryList.Api
 
             // Add services
             builder.Services.AddServices(configuration);
+            builder.Services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey
+                        (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    };
+                });
 
             var app = builder.Build();
+            app.UseMiddleware<JwtMiddleware>();
 
             // Configure the HTTP request pipeline.
             app.UseSwagger();
@@ -57,11 +77,11 @@ namespace GroceryList.Api
             });
 
             app.UseHttpsRedirection();
-            app.UseAuthorization();
-            app.UseAuthentication();
-            app.UseMiddleware<JwtMiddleware>();
-
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.MapControllers();
 
             app.Run();

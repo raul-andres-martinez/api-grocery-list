@@ -14,9 +14,10 @@ namespace GroceryList.Service.Services
             _groceryListRepository = groceryListRepository;
         }
 
-        public async Task<GenericResponse<Guid>> AddGroceryListAsync(GroceryListRequest request)
+        public async Task<GenericResponse<Guid>> AddGroceryListAsync(GroceryListRequest request, string userId)
         {
-            var groceryList = request.ToEntity();
+            Guid.TryParse(userId, out Guid id);
+            var groceryList = request.ToEntity(id);
             return await _groceryListRepository.AddGroceryListAsync(groceryList);
         }
     }

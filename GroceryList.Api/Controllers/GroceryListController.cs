@@ -1,6 +1,7 @@
 ﻿using GroceryList.Domain.Dtos.Requests;
 using GroceryList.Domain.Dtos.Response;
 using GroceryList.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GroceryList.Api.Controllers
@@ -17,8 +18,10 @@ namespace GroceryList.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(typeof(GenericResponse<Guid>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddGroceryList(GroceryListRequest request)
         {
@@ -27,7 +30,14 @@ namespace GroceryList.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var response = await _groceryListService.AddGroceryListAsync(request);
+            var userId = HttpContext.Items["UserId"].ToString();
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Forbid();
+            }
+
+            var response = await _groceryListService.AddGroceryListAsync(request, userId);
 
             if (!response.Success)
             {

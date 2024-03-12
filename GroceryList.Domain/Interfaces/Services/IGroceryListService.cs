@@ -5,6 +5,6 @@ namespace GroceryList.Domain.Interfaces.Services
 {
     public interface IGroceryListService
     {
-        Task<GenericResponse<Guid>> AddGroceryListAsync(GroceryListRequest request);
+        Task<GenericResponse<Guid>> AddGroceryListAsync(GroceryListRequest request, string userId);
     }
 }
